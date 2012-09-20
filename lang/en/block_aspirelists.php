@@ -3,8 +3,8 @@
 // Released under the LGPL Licence - http://www.gnu.org/licenses/lgpl.html. Anyone is free to change or redistribute this code.
 
 $string['pluginname'] = 'Talis Aspire Resource Lists';
-$string['aspirelists'] = 'Resource Lists';
-$string['no_resource_lists_msg'] = 'No resource lists found for';
+$string['aspirelists'] = 'Reading Lists';
+$string['no_resource_lists_msg'] = 'No reading lists found for';
 
 $string['config_targetAspire'] = 'Target Aspire URL';
 $string['config_targetAspire_desc'] = 'Enter the target Talis Aspire Campus Edition base URL. IMPORTANT: Do not add a trailing slash to the URL.';
