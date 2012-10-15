@@ -143,10 +143,10 @@ class block_aspirelists extends block_base {
 		}
 
 		if ($output=='') {
-            if(has_capability('moodle/course:update', $context)) {
+            if(!has_capability('moodle/course:update', $context)) {
                 $this->content->text   = "<p>This Moodle course is not yet linked to the resource lists system.  You may be able to find your list through searching the resource lists system, or you can consult your Moodle module or lecturer for further information.</p>";    
             } else {
-                $this->content->text   = "<p>If your list is available on the <a href='http://resourcelists.kent.ac.uk'>resource list</a> system and you would like assistance in linking it to Moodle please contact <a href='mailto:helpdesk@kent.ac.uk'>helpdesk</a>.</p>";
+                $this->content->text   = "<p>If your list is available on the <a href='http://resourcelists.kent.ac.uk'>resource list</a> system and you would like assistance in linking it to Moodle please contact <a href='mailto:readinglisthelp@kent.ac.uk'>Reading List Helpdesk</a>.</p>";
             }
 		} else {
 		    $this->content->text   = $output;
