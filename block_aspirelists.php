@@ -55,12 +55,14 @@ class block_aspirelists extends block_base {
             $url = "$site/$targetKG/$code/lists.json"; // build the target URL of the JSON data we'll be requesting from Aspire
 			// using php curl, we'll now request the JSON data from Aspire
 
+    $aconfig = get_config('aspirelists');
             $ch = curl_init();
 			$options = array(
 			    CURLOPT_URL            => $url, // tell curl the URL
 			    CURLOPT_HEADER         => false,
 			    CURLOPT_RETURNTRANSFER => true,
-			    CURLOPT_CONNECTTIMEOUT => 20,
+          CURLOPT_CONNECTTIMEOUT => $aconfig->timeout,
+          CURLOPT_TIMEOUT => $aconfig->timeout,
 			    CURLOPT_HTTP_VERSION      => CURL_HTTP_VERSION_1_1
 			);
 			curl_setopt_array($ch, $options);
