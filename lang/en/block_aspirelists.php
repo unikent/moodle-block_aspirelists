@@ -7,6 +7,7 @@ $string['aspirelists'] = 'Reading Lists';
 $string['no_resource_lists_msg'] = 'No reading lists found for';
 
 $string['config_targetAspire'] = 'Target Aspire URL';
+$string['config_altTargetAspire'] = 'Alternate Target Aspire URL';
 $string['config_targetAspire_desc'] = 'Enter the target Talis Aspire Campus Edition base URL. IMPORTANT: Do not add a trailing slash to the URL.';
 $string['config_targetAspire_default'] = 'Default: http://demo.talisaspire.com';
 $string['config_targetAspire_ex'] = 'http://demo.talisaspire.com';

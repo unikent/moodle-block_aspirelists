@@ -17,11 +17,13 @@ class block_aspirelists extends block_base {
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
 
 	$site = get_config('aspirelists', 'targetAspire'); // 1.x: $CFG->block_aspirelists_targetAspire;
-	if (empty($site))
+	$altSite = get_config('aspirelists', 'altTargetAspire'); // 1.x: $CFG->block_aspirelists_targetAspire;
+	if (empty($site) && empty($altSite))
 	{
 		$this->content->text = "Talis Aspire base URL not configured. Contact the system administrator.";
 		return $this->content;
 	}
+
 
 	$targetKG = get_config('aspirelists', 'targetKG');// 1.x: $CFG->block_aspirelists_targetKG;
 	if (empty($targetKG))
@@ -51,12 +53,60 @@ class block_aspirelists extends block_base {
         	// get the code from the global course object, lowercasing it in the process
             //$code = strtolower($COURSE->idnumber);  
             $code = trim($match);
+    
+            $m = kent_aspire_block_curl($site, $targetKG, $code);
+            if(!empty($m)) { $main[] = $m; }
+            $a = kent_aspire_block_curl($altSite, $targetKG, $code);
+            if(!empty($a)) { $alt[] = $a; }
 
-            $url = "$site/$targetKG/$code/lists.json"; // build the target URL of the JSON data we'll be requesting from Aspire
-			// using php curl, we'll now request the JSON data from Aspire
+            if(!empty($main)) {
+            	$output .= '<h3 style="margin-bottom: 2px;">Canterbury</h3>';
+            	foreach ($main as $i) {
+            		$output .= $i;
+            	}
+            }
 
-    $aconfig = get_config('aspirelists');
-            $ch = curl_init();
+            if(!empty($alt)) {
+            	$output .= '<h3 style="margin-bottom: 2px;">Medway</h3>';
+            	foreach ($alt as $i) {
+            		$output .= $i;
+            	}
+            }
+        }
+
+		if ($output=='') {
+            if(!has_capability('moodle/course:update', $context)) {
+                $this->content->text   = "<p>This Moodle course is not yet linked to the resource lists system.  You may be able to find your list through searching the resource lists system, or you can consult your Moodle module or lecturer for further information.</p>";    
+            } else {
+                $this->content->text   = "<p>If your list is available on the <a href='http://resourcelists.kent.ac.uk'>resource list</a> system and you would like assistance in linking it to Moodle please contact <a href='mailto:readinglisthelp@kent.ac.uk'>Reading List Helpdesk</a>.</p>";
+            }
+		} else {
+		    $this->content->text   = $output;
+		}
+	}
+
+    return $this->content;
+  }
+
+  function has_config() {
+    return true;
+  }
+
+  // function applicable_formats() {
+  //   return array('course-view' => true);
+  // }
+
+
+
+}
+
+function kent_aspire_block_curl($site, $targetKG, $code) {
+global $COURSE;
+
+	$aconfig = get_config('aspirelists');
+	$url = "$site/$targetKG/$code/lists.json";
+
+	$ch = curl_init();
 			$options = array(
 			    CURLOPT_URL            => $url, // tell curl the URL
 			    CURLOPT_HEADER         => false,
@@ -67,6 +117,7 @@ class block_aspirelists extends block_base {
 			);
 			curl_setopt_array($ch, $options);
 			$response = curl_exec($ch); // execute the request and get a response
+
 
 			if ($response) // if we get a valid response from curl...
 			{
@@ -113,6 +164,7 @@ class block_aspirelists extends block_base {
 								}
 							}
 							$list['count'] = $itemCount;
+
 							// array_push($lists,$list);
 							$lists[$list["url"]] = $list;
 						}
@@ -121,53 +173,32 @@ class block_aspirelists extends block_base {
 				}
 			}  else {
                 //If we had no response from the CURL request, then set a suitable message.
-                $output = "<p>Could not communicate with reading list system for $COURSE->fullname.  Please check again later.</p>";
+                return "<p>Could not communicate with reading list system for $COURSE->fullname.  Please check again later.</p>";
             }
-        }
 
-        if(!empty($lists)){
-        	foreach ($lists as $list)
-			{
-				$itemNoun = ($list['count'] == 1) ? "item" : "items"; // get a friendly, human readable noun for the items
+            $output = '';
 
-				// finally, we're ready to output information to the browser
-				$output .= "<p><a href='".$list['url']."'>".$list['name']."</a>";
-				if ($list['count'] > 0) // add the item count if there are any...
+            if(!empty($lists)){
+        		foreach ($lists as $list)
 				{
-					$output .= " (".$list['count']." $itemNoun)";
+					$itemNoun = ($list['count'] == 1) ? "item" : "items"; // get a friendly, human readable noun for the items
+
+					// finally, we're ready to output information to the browser
+					$output .= "<p><a href='".$list['url']."'>".$list['name']."</a>";
+					if ($list['count'] > 0) // add the item count if there are any...
+					{
+						$output .= " (".$list['count']." $itemNoun)";
+					}
+					if (isset($list["lastUpdatedDate"]))
+					{
+						$output .= ', last updated '.contextualTime(strtotime($list["lastUpdatedDate"])); 
+					}
+					$output .= "</p>\n";
 				}
-				if (isset($list["lastUpdatedDate"]))
-				{
-					$output .= ', last updated '.contextualTime(strtotime($list["lastUpdatedDate"])); 
-				}
-				$output .= "</p>\n";
-			}
-		}
-
-		if ($output=='') {
-            if(!has_capability('moodle/course:update', $context)) {
-                $this->content->text   = "<p>This Moodle course is not yet linked to the resource lists system.  You may be able to find your list through searching the resource lists system, or you can consult your Moodle module or lecturer for further information.</p>";    
-            } else {
-                $this->content->text   = "<p>If your list is available on the <a href='http://resourcelists.kent.ac.uk'>resource list</a> system and you would like assistance in linking it to Moodle please contact <a href='mailto:readinglisthelp@kent.ac.uk'>Reading List Helpdesk</a>.</p>";
-            }
-		} else {
-		    $this->content->text   = $output;
-		}
-	}
-
-    return $this->content;
-  }
-
-  function has_config() {
-    return true;
-  }
-
-  // function applicable_formats() {
-  //   return array('course-view' => true);
-  // }
+			} else { return null; }
 
 
-
+			return $output;
 }
 
 function contextualTime($small_ts, $large_ts=false) {
