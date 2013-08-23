@@ -15,8 +15,11 @@ $string['config_kg'] = 'Target knowledge group';
 $string['config_kg_desc'] = 'Choose target knowledge grouping level you want to link at, e.g. course or module. This terminology should match that implemented in your Talis Aspire hierarchy.';
 $string['config_kg_ex'] = 'Default: modules';
 $string['config_timePeriod'] = 'Display time period';
-$string['config_timePeriod_desc'] = 'Enter the time period you want to display (1 = 2011/2012, 2 = 2012/2013, etc)';
+$string['config_timePeriod_desc'] = 'Enter the time period you want to display (1 = 2011/2012, 2 = 2012/2013, 3 = 2013/2014 etc)';
 $string['config_timePeriod_ex'] = '2';
+$string['config_altTimePeriod'] = 'Display (medway) time period';
+$string['config_altTimePeriod_desc'] = 'Enter the time period you want to display for medway (1 = 2012/2013, 2 = 2013/2014, etc)';
+$string['config_altTimePeriod_ex'] = '2';
 
 $string['modules'] = 'Modules';
 $string['courses'] = 'Courses';

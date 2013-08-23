@@ -19,5 +19,5 @@
 
 
     $settings->add(new admin_setting_configtext('aspirelists/timePeriod',get_string('config_timePeriod', 'block_aspirelists'),get_string('config_timePeriod_desc', 'block_aspirelists'),get_string('config_timePeriod_ex', 'block_aspirelists')));
+    $settings->add(new admin_setting_configtext('aspirelists/altTimePeriod',get_string('config_altTimePeriod', 'block_aspirelists'),get_string('config_altTimePeriod_desc', 'block_aspirelists'),get_string('config_altTimePeriod_ex', 'block_aspirelists')));
 //    $settings->add(new admin_setting_configtext('aspirelists/targetKG',get_string('config_kg', 'block_aspirelists'),get_string('config_kg_desc', 'block_aspirelists'),get_string('config_kg_ex', 'block_aspirelists')));
-?>

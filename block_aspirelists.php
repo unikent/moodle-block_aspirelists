@@ -23,6 +23,8 @@ class block_aspirelists extends block_base {
 		$this->content->text = "Talis Aspire base URL not configured. Contact the system administrator.";
 		return $this->content;
 	}
+  $timep = get_config('aspirelists', 'timePeriod');
+  $alt_timep = get_config('aspirelists', 'altTimePeriod');
 
 
 	$targetKG = get_config('aspirelists', 'targetKG');// 1.x: $CFG->block_aspirelists_targetKG;
@@ -54,9 +56,9 @@ class block_aspirelists extends block_base {
             //$code = strtolower($COURSE->idnumber);  
             $code = trim($match);
     
-            $m = kent_aspire_block_curl($site, $targetKG, $code);
+            $m = kent_aspire_block_curl($site, $targetKG, $code, $timep);
             if(!empty($m)) { $main[] = $m; }
-            $a = kent_aspire_block_curl($altSite, $targetKG, $code);
+            $a = kent_aspire_block_curl($altSite, $targetKG, $code, $alt_timep);
             if(!empty($a)) { $alt[] = $a; }
 
             if(!empty($main)) {
@@ -100,7 +102,7 @@ class block_aspirelists extends block_base {
 
 }
 
-function kent_aspire_block_curl($site, $targetKG, $code) {
+function kent_aspire_block_curl($site, $targetKG, $code, $timep) {
 global $COURSE;
 
 	$aconfig = get_config('aspirelists');
@@ -130,36 +132,31 @@ global $COURSE;
 
 						$tp = strrev($data[$usesList["value"]]['http://lists.talis.com/schema/temp#hasTimePeriod'][0]['value']);
 
-						$timep = get_config('aspirelists', 'timePeriod');
-
 						if($tp[0] === $timep) {
-						
 							$list = array();
 							$list["url"] = $usesList["value"]; // extract the list URL
 							$list["name"] = $data[$list["url"]]['http://rdfs.org/sioc/spec/name'][0]['value']; // extract the list name
 
-							
-
 							// let's try and get a last updated date
 							if (isset($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'])) // if there is a last updated date...
 							{
-								// set up the timezone 
+								// set up the timezone
 								date_default_timezone_set('Europe/London');
 
 								// ..and extract the date in a friendly, human readable format...
 								$list['lastUpdatedDate'] = date('l j F Y',
-								    strtotime($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'][0]['value'])); 
+								    strtotime($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'][0]['value']));
 							}
 
 							// now let's count the number of items
-							$itemCount = 0; 
+							$itemCount = 0;
 							if (isset($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#contains'])) // if the list contains anything...
 							{
 								foreach ($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#contains'] as $things) // loop through the list of things the list contains...
 								{
 									if (preg_match('/\/items\//',$things['value'])) // if the thing is an item, incrememt the item count (lists can contain sections, too)
 									{
-										$itemCount++; 
+										$itemCount++;
 									}
 								}
 							}
