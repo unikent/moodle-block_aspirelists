@@ -14,7 +14,7 @@ class block_aspirelists extends block_base {
       return $this->content;
     }
 
-    $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
+    $context = context_course::instance($COURSE->id);
 
 	$site = get_config('aspirelists', 'targetAspire'); // 1.x: $CFG->block_aspirelists_targetAspire;
 	$altSite = get_config('aspirelists', 'altTargetAspire'); // 1.x: $CFG->block_aspirelists_targetAspire;
