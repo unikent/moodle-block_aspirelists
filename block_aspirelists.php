@@ -224,4 +224,3 @@ function sortByName($a,$b)
 {
     return strcmp($a["name"], $b["name"]);
 }
-?>
