@@ -89,11 +89,19 @@ class block_aspirelists extends block_base {
 	private function curlList($site, $timep, $targetKG, $code) {
 		global $COURSE;
 
+		$url = "$site/$targetKG/$code/lists.json";
+
+        $cache = cache::make('block_aspirelists', 'aspirecache');
+        $cache_content = $cache->get($url);
+        if ($cache_content !== false) {
+        	return $cache_content;
+        }
+
 		$aconfig = get_config('aspirelists');
 
 		$ch = curl_init();
 		$options = array(
-			CURLOPT_URL             => "$site/$targetKG/$code/lists.json",
+			CURLOPT_URL             => $url,
 			CURLOPT_HEADER          => false,
 			CURLOPT_RETURNTRANSFER  => true,
 			CURLOPT_CONNECTTIMEOUT  => $aconfig->timeout,
@@ -143,7 +151,9 @@ class block_aspirelists extends block_base {
 			}
 		} else {
 			// If we had no response from the CURL request, then set a suitable message.
-			return "<p>Could not communicate with reading list system for $COURSE->fullname.  Please check again later.</p>";
+			$out = "<p>Could not communicate with reading list system for $COURSE->fullname.  Please check again later.</p>";
+			$cache->set($url, $out);
+			return $out;
 		}
 
 		$output = '';
@@ -167,8 +177,11 @@ class block_aspirelists extends block_base {
 				$output .= "</p>\n";
 			}
 		} else {
+			$cache->set($url, "");
 			return null;
 		}
+
+		$cache->set($url, $output);
 
 		return $output;
 	}
