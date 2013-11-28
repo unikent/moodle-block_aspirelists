@@ -111,22 +111,23 @@ class block_aspirelists extends block_base {
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);
 
-		$lists = array();
 		if ($response) {
 			// Decode the returned JSON data
 			$data = json_decode($response, true);
 			if (isset($data["$site/$targetKG/$code"]) && isset($data["$site/$targetKG/$code"]['http://purl.org/vocab/resourcelist/schema#usesList'])) {
+				$lists = array();
+				
 				foreach ($data["$site/$targetKG/$code"]['http://purl.org/vocab/resourcelist/schema#usesList'] as $usesList) {
 					$tp = strrev($data[$usesList["value"]]['http://lists.talis.com/schema/temp#hasTimePeriod'][0]['value']);
 					if ($tp[0] === $timep) {
 						$list = array();
-						$list["url"] = $usesList["value"]; // extract the list URL
-						$list["name"] = $data[$list["url"]]['http://rdfs.org/sioc/spec/name'][0]['value']; // extract the list name
+						$list["url"] = clean_param($usesList["value"], PARAM_URL);
+						$list["name"] = clean_param($data[$list["url"]]['http://rdfs.org/sioc/spec/name'][0]['value'], PARAM_TEXT);
 
 						// Let's try and get a last updated date
 						if (isset($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'])) {
 							// ..and extract the date in a friendly, human readable format...
-							$time = strtotime($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'][0]['value']);
+							$time = strtotime(clean_param($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#lastUpdated'][0]['value'], PARAM_TEXT));
 							$list['lastUpdatedDate'] = date('l j F Y', $time);
 						}
 
@@ -134,7 +135,7 @@ class block_aspirelists extends block_base {
 						$itemCount = 0;
 						if (isset($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#contains'])) {
 							foreach ($data[$list["url"]]['http://purl.org/vocab/resourcelist/schema#contains'] as $things) {
-								if (preg_match('/\/items\//', $things['value'])) {
+								if (preg_match('/\/items\//', clean_param($things['value'], PARAM_URL))) {
 									$itemCount++;
 								}
 							}
