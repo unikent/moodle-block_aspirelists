@@ -5,6 +5,6 @@
 $definitions = array(
     'aspirecache' => array(
         'mode' => cache_store::MODE_APPLICATION,
-        'ttl' => 216000
+        'ttl' => 86400
     )
 );
