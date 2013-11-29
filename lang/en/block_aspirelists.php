@@ -28,4 +28,4 @@ $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
 
 // MUC
-$string['cachedef_aspirecache'] = 'Caches Aspire Lists';
+$string['cachedef_aspirecache'] = 'Aspire Lists';
