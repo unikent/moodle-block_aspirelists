@@ -99,6 +99,8 @@ class block_aspirelists extends block_base {
 
 		$aconfig = get_config('aspirelists');
 
+		$lists = array();
+		
 		$ch = curl_init();
 		$options = array(
 			CURLOPT_URL             => $url,
@@ -115,7 +117,6 @@ class block_aspirelists extends block_base {
 			// Decode the returned JSON data
 			$data = json_decode($response, true);
 			if (isset($data["$site/$targetKG/$code"]) && isset($data["$site/$targetKG/$code"]['http://purl.org/vocab/resourcelist/schema#usesList'])) {
-				$lists = array();
 				
 				foreach ($data["$site/$targetKG/$code"]['http://purl.org/vocab/resourcelist/schema#usesList'] as $usesList) {
 					$tp = strrev($data[$usesList["value"]]['http://lists.talis.com/schema/temp#hasTimePeriod'][0]['value']);
