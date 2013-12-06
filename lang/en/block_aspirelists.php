@@ -27,5 +27,8 @@ $string['units'] = 'Units';
 $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
 
+$string['aspirelists:addinstance'] = 'Add a new aspire lists block';
+$string['aspirelists:myaddinstance'] = 'Add a new aspire lists block to My home';
+
 // MUC
 $string['cachedef_aspirecache'] = 'Aspire Lists';
