@@ -3,6 +3,10 @@
 // Released under the LGPL Licence - http://www.gnu.org/licenses/lgpl.html. Anyone is free to change or redistribute this code.
 
 $string['pluginname'] = 'Talis Aspire Resource Lists';
+
+$string['aspirelists:addinstance'] = 'Add a new aspire lists block';
+$string['aspirelists:myaddinstance'] = 'Add a new aspire lists block to My home';
+
 $string['aspirelists'] = 'Reading Lists';
 $string['no_resource_lists_msg'] = 'No reading lists found for';
 
@@ -26,9 +30,6 @@ $string['courses'] = 'Courses';
 $string['units'] = 'Units';
 $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
-
-$string['aspirelists:addinstance'] = 'Add a new aspire lists block';
-$string['aspirelists:myaddinstance'] = 'Add a new aspire lists block to My home';
 
 // MUC
 $string['cachedef_aspirecache'] = 'Aspire Lists';
