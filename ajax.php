@@ -8,7 +8,7 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_sesskey();
 
 $id = required_param('id', PARAM_INT);
-$shortname = required_param('shortname', PARAM_ALPHANUMEXT);
+$shortname = required_param('shortname', PARAM_RAW);
 
 $content = \mod_aspirelists\core\aspirelists::get_block_content($id, $shortname);
 
