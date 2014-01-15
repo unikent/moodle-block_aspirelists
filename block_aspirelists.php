@@ -29,7 +29,7 @@ class block_aspirelists extends block_base {
 
 	function get_content() {
         $this->content = new stdClass();
-        $this->content->text = '<div id="aspirelists-block">Requesting reading lists...</div>';
+        $this->content->text = '<div id="aspirelists-block">'.get_string('ajaxwait', 'block_aspirelists').'</div>';
         $this->content->footer = '';
         return $this->content;
 	}
