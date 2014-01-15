@@ -6,6 +6,10 @@ require_once(dirname(__FILE__) . '/../moodleblock.class.php');
 // Released under the LGPL Licence - http://www.gnu.org/licenses/lgpl.html. Anyone is free to change or redistribute this code.
 
 class block_aspirelists extends block_base {
+
+    /**
+     * Init function
+     */
 	function init() {
 		$this->title = get_string('aspirelists', 'block_aspirelists');
 	}
@@ -27,6 +31,9 @@ class block_aspirelists extends block_base {
         ));
     }
 
+    /**
+     * Get Block Content
+     */
 	function get_content() {
         $this->content = new stdClass();
         $this->content->text = '<div id="aspirelists-block">'.get_string('ajaxwait', 'block_aspirelists').'</div>';
@@ -34,6 +41,9 @@ class block_aspirelists extends block_base {
         return $this->content;
 	}
 
+    /**
+     * This block has configuration
+     */
 	function has_config() {
 		return true;
 	}
