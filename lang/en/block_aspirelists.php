@@ -25,6 +25,9 @@ $string['config_altTimePeriod'] = 'Display (medway) time period';
 $string['config_altTimePeriod_desc'] = 'Enter the time period you want to display for medway (1 = 2012/2013, 2 = 2013/2014, etc)';
 $string['config_altTimePeriod_ex'] = '2';
 
+$string['ajaxwait'] = 'Requesting reading lists...';
+$string['ajaxerror'] = 'Unable to obtain reading lists.';
+
 $string['modules'] = 'Modules';
 $string['courses'] = 'Courses';
 $string['units'] = 'Units';
