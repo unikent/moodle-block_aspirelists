@@ -10,9 +10,9 @@ class block_aspirelists extends block_base {
     /**
      * Init function
      */
-	function init() {
-		$this->title = get_string('aspirelists', 'block_aspirelists');
-	}
+    function init() {
+        $this->title = get_string('aspirelists', 'block_aspirelists');
+    }
 
     /**
      * Required JS
@@ -26,25 +26,25 @@ class block_aspirelists extends block_base {
         $this->page->requires->string_for_js('ajaxerror', 'block_aspirelists');
 
         $this->page->requires->js_init_call('M.block_aspirelists.init', array(
-        	$COURSE->id,
-        	$COURSE->shortname
+            $COURSE->id,
+            $COURSE->shortname
         ));
     }
 
     /**
      * Get Block Content
      */
-	function get_content() {
+    function get_content() {
         $this->content = new stdClass();
         $this->content->text = '<div id="aspirelists-block">'.get_string('ajaxwait', 'block_aspirelists').'</div>';
         $this->content->footer = '';
         return $this->content;
-	}
+    }
 
     /**
      * This block has configuration
      */
-	function has_config() {
-		return true;
-	}
+    function has_config() {
+        return true;
+    }
 }
