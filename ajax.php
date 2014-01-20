@@ -13,6 +13,6 @@ $shortname = required_param('shortname', PARAM_RAW);
 $content = \mod_aspirelists\core\aspirelists::get_block_content($id, $shortname);
 
 echo json_encode(array(
-    "text" => "Reading Lists is currently unavaliable due to a system error.",//$content->text,
+    "text" => $content->text,
     "footer" => $content->footer
 ));
