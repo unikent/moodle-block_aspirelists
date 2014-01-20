@@ -19,14 +19,13 @@ M.block_aspirelists = {
                     success: function (x, o) {
                         // Process the JSON data returned from the server
                         try {
-                            data = Y.JSON.parse(o.responseText);
+                            var data = Y.JSON.parse(o.responseText);
+                            aspirelists.setHTML(data.text);
                         }
                         catch (e) {
                             aspirelists.setHTML(M.str.block_aspirelists.ajaxerror);
                             return;
                         }
-
-                        aspirelists.setHTML(data.text);
                     },
 
                     failure: function (x, o) {

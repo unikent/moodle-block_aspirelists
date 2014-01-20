@@ -33,6 +33,3 @@ $string['courses'] = 'Courses';
 $string['units'] = 'Units';
 $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
-
-// MUC
-$string['cachedef_aspirecache'] = 'Aspire Lists';
