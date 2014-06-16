@@ -18,6 +18,9 @@ define('AJAX_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../../config.php');
 
+$PAGE->set_context(\context_course::instance($id));
+
+require_login();
 require_sesskey();
 
 $id = required_param('id', PARAM_INT);
