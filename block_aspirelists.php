@@ -18,9 +18,9 @@ class block_aspirelists extends block_base {
      * Required JS
      */
     public function get_required_javascript() {
-        parent::get_required_javascript();
-
         global $COURSE;
+
+        parent::get_required_javascript();
 
         $this->page->requires->string_for_js('ajaxwait', 'block_aspirelists');
         $this->page->requires->string_for_js('ajaxerror', 'block_aspirelists');
@@ -45,6 +45,6 @@ class block_aspirelists extends block_base {
      * This block has configuration
      */
     function has_config() {
-        return true;
+        return false;
     }
 }
