@@ -1,6 +1,20 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../moodleblock.class.php');
+defined('MOODLE_INTERNAL') || die();
 
 // Copyright (c) Talis Education Limited, 2013
 // Released under the LGPL Licence - http://www.gnu.org/licenses/lgpl.html. Anyone is free to change or redistribute this code.
@@ -10,7 +24,7 @@ class block_aspirelists extends block_base {
     /**
      * Init function
      */
-    function init() {
+    public function init() {
         $this->title = get_string('aspirelists', 'block_aspirelists');
     }
 
@@ -29,14 +43,18 @@ class block_aspirelists extends block_base {
             $COURSE->id,
             $COURSE->shortname
         ));
+
+        $this->page->requires->css(new moodle_url('/blocks/aspirelists/styles.css'));
     }
 
     /**
      * Get Block Content
      */
-    function get_content() {
+    public function get_content() {
+        global $OUTPUT;
+
         $this->content = new stdClass();
-        $this->content->text = '<div id="aspirelists-block">'.get_string('ajaxwait', 'block_aspirelists').'</div>';
+        $this->content->text = $OUTPUT->box($OUTPUT->pix_icon('y/loading', 'Loading...'), 'centered_cell block_loading', 'aspire_block_contents');
         $this->content->footer = '';
         return $this->content;
     }
@@ -44,7 +62,7 @@ class block_aspirelists extends block_base {
     /**
      * This block has configuration
      */
-    function has_config() {
+    public function has_config() {
         return false;
     }
 }
