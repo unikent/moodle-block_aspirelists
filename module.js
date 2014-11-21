@@ -2,9 +2,9 @@ M.block_aspirelists = {
     init: function(Y, id, shortname) {
         YUI().use("node", "io", "dump", "json-parse", function(Y) {
 
-            var aspirelists = Y.one("#aspirelists-block");
+            var aspirelists = Y.one(".block_aspirelists .content");
 
-            aspirelists.setHTML(M.str.block_aspirelists.ajaxwait);
+            Y.one(".block_aspirelists .block_loading").setStyle("display", "block");
 
             Y.io(M.cfg.wwwroot + "/blocks/aspirelists/ajax.php", {
                 timeout: 3000,
