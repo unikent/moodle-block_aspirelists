@@ -66,7 +66,7 @@ foreach ($lists as $list) {
         $formattedlists[$campus] = array();
     }
 
-    $listhtml = "<p><a href='" . s($list->get_url()) . "'>" . s($list->get_name()) . "</a>";
+    $listhtml = "<p><a href=\"" . s($list->get_url()) . "\" target=\"_blank\">" . s($list->get_name()) . "</a>";
 
     $count = $list->get_item_count();
     if ($count > 0) {
