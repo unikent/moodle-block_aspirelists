@@ -49,7 +49,7 @@ $cache = \cache::make('block_aspirelists', 'data');
 // Build Readinglists API object.
 $api = new \unikent\ReadingLists\API();
 $api->set_cache_layer($cache);
-$api->set_timeout(3000);
+$api->set_timeout(get_config('aspirelists', 'timeout'));
 $api->set_timeperiod(get_config('aspirelists', 'timeperiod'));
 
 // Build Lists.
@@ -59,31 +59,37 @@ foreach ($matches as $match) {
 }
 
 // Turn lists into block content.
-$content = '';
+$formattedlists = array();
 foreach ($lists as $list) {
-    $count = $list->get_item_count();
-    if ($count <= 0) {
-        continue;
+    $campus = $list->get_campus();
+    if (!isset($formattedlists[$campus])) {
+        $formattedlists[$campus] = array();
     }
 
-    $content .= '<h3>' . $list->get_campus() . '</h3>';
+    $listhtml = "<p><a href='" . s($list->get_url()) . "'>" . s($list->get_name()) . "</a>";
 
-    // Get a friendly, human readable noun for the items.
-    $itemnoun = ($count == 1) ? "item" : "items";
-
-    // Finally, we're ready to output information to the browser.
-    $content .= "<p><a href='" . $list->get_url() . "'>" . $list->get_name() . "</a>";
-
+    $count = $list->get_item_count();
     if ($count > 0) {
-        $content .= " ({$count} {$itemnoun})";
+        $itemnoun = ($count == 1) ? "item" : "items";
+        $listhtml .= " ({$count} {$itemnoun})";
     }
 
     $lastupdated = $list->get_last_updated(true);
     if (!empty($lastupdated)) {
-        $content .= ', last updated: ' . $lastupdated;
+        $listhtml .= ', last updated: ' . $lastupdated;
     }
 
-    $content .= "</p>";
+    $listhtml .= "</p>";
+    $formattedlists[$campus][] .= $listhtml;
+}
+
+$content = '';
+foreach ($formattedlists as $campus => $lists) {
+    $content .= '<h3>' . $campus . '</h3>';
+
+    foreach ($lists as $list) {
+        $content .= $list;
+    }
 }
 
 if (empty($content)) {
