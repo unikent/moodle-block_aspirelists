@@ -66,7 +66,7 @@ foreach ($lists as $list) {
         continue;
     }
 
-    $content .= '<h3 style="margin-bottom: 2px;">' . $list->get_campus() . '</h3>';
+    $content .= '<h3>' . $list->get_campus() . '</h3>';
 
     // Get a friendly, human readable noun for the items.
     $itemnoun = ($count == 1) ? "item" : "items";
