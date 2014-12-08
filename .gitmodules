@@ -1,0 +1,4 @@
+[submodule "lib/readinglists"]
+	path = lib/readinglists
+	url = git@github.com:unikent/lib-php-readinglists.git
+	branch = master
