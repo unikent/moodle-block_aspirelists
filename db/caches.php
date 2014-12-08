@@ -15,14 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
- *
- * @package    block_aspirelists
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Our MUC caches
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2014120800;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2013110500;        // Requires this Moodle version.
-$plugin->component = 'block_aspirelists';
+$definitions = array(
+    'data' => array(
+        'mode' => cache_store::MODE_APPLICATION,
+        'ttl' => 14400
+    )
+);

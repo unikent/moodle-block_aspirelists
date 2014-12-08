@@ -40,8 +40,7 @@ class block_aspirelists extends block_base {
         $this->page->requires->string_for_js('ajaxerror', 'block_aspirelists');
 
         $this->page->requires->js_init_call('M.block_aspirelists.init', array(
-            $COURSE->id,
-            $COURSE->shortname
+            $COURSE->id
         ));
 
         $this->page->requires->css(new moodle_url('/blocks/aspirelists/styles.css'));
@@ -54,7 +53,8 @@ class block_aspirelists extends block_base {
         global $OUTPUT;
 
         $this->content = new stdClass();
-        $this->content->text = $OUTPUT->box($OUTPUT->pix_icon('y/loading', 'Loading...'), 'centered_cell block_loading', 'aspire_block_contents');
+        $icon = $OUTPUT->pix_icon('y/loading', 'Loading...');
+        $this->content->text = $OUTPUT->box($icon, 'centered_cell block_loading', 'aspire_block_contents');
         $this->content->footer = '';
         return $this->content;
     }
