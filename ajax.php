@@ -17,19 +17,99 @@
 define('AJAX_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . "/lib/readinglists/src/API.php");
+require_once(dirname(__FILE__) . "/lib/readinglists/src/Parser.php");
+require_once(dirname(__FILE__) . "/lib/readinglists/src/ReadingList.php");
 
 require_login();
 require_sesskey();
 
 $id = required_param('id', PARAM_INT);
-$shortname = required_param('shortname', PARAM_RAW);
 
 $PAGE->set_context(\context_course::instance($id));
 
-$content = \mod_aspirelists\core\aspirelists::get_block_content($id, $shortname);
+$course = $DB->get_record('course', array(
+    'id' => $id
+));
+
+if (!$course) {
+    print_error("Invalid course specified!");
+}
+
+// Extract the shortnames.
+$subject = strtolower($course->shortname);
+preg_match_all("([a-z]{2,4}[0-9]{3,4})", $subject, $matches);
+if (empty($matches)) {
+    print_error("Invalid course specified!");
+}
+
+// Build MUC object.
+$cache = \cache::make('block_aspirelists', 'data');
+
+// Build Readinglists API object.
+$api = new \unikent\ReadingLists\API();
+$api->set_cache_layer($cache);
+$api->set_timeout(get_config('aspirelists', 'timeout'));
+$api->set_timeperiod(get_config('aspirelists', 'timeperiod'));
+
+// Build Lists.
+$lists = array();
+foreach ($matches as $match) {
+    $lists = array_merge($lists, $api->get_lists($match[0]));
+}
+
+// Turn lists into block content.
+$formattedlists = array();
+foreach ($lists as $list) {
+    $campus = $list->get_campus();
+    if (!isset($formattedlists[$campus])) {
+        $formattedlists[$campus] = array();
+    }
+
+    $listhtml = "<p><a href=\"" . s($list->get_url()) . "\" target=\"_blank\">" . s($list->get_name()) . "</a>";
+
+    $count = $list->get_item_count();
+    if ($count > 0) {
+        $itemnoun = ($count == 1) ? "item" : "items";
+        $listhtml .= " ({$count} {$itemnoun})";
+    }
+
+    $lastupdated = $list->get_last_updated(true);
+    if (!empty($lastupdated)) {
+        $listhtml .= ', last updated: ' . $lastupdated;
+    }
+
+    $listhtml .= "</p>";
+    $formattedlists[$campus][] .= $listhtml;
+}
+
+$content = '';
+foreach ($formattedlists as $campus => $lists) {
+    $content .= '<h3>' . $campus . '</h3>';
+
+    foreach ($lists as $list) {
+        $content .= $list;
+    }
+}
+
+if (empty($content)) {
+    if (!has_capability('moodle/course:update', \context_course::instance($id))) {
+        $content = <<<HTML
+            <p>This Moodle course is not yet linked to the resource lists system.
+            You may be able to find your list through searching the resource lists system,
+            or you can consult your Moodle module or lecturer for further information.</p>
+HTML;
+    } else {
+        $content = <<<HTML
+            <p>If your list is available on the <a href="http://resourcelists.kent.ac.uk">resource list</a>
+            system and you would like assistance in linking it to Moodle please contact
+            <a href="mailto:readinglisthelp@kent.ac.uk">Reading List Helpdesk</a>.</p>
+HTML;
+    }
+}
 
 echo $OUTPUT->header();
 echo json_encode(array(
-    "text" => $content->text,
-    "footer" => $content->footer
+    "text" => trim($content),
+    "footer" => ''
 ));

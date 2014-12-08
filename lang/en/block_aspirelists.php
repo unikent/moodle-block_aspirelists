@@ -1,8 +1,20 @@
 <?php
-// Copyright (c) Talis Education Limited, 2011
-// Released under the LGPL Licence - http://www.gnu.org/licenses/lgpl.html. Anyone is free to change or redistribute this code.
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$string['pluginname'] = 'Talis Aspire Resource Lists';
+$string['pluginname'] = 'Reading Lists';
 
 $string['aspirelists:addinstance'] = 'Add a new aspire lists block';
 $string['aspirelists:myaddinstance'] = 'Add a new aspire lists block to My home';
@@ -33,3 +45,5 @@ $string['courses'] = 'Courses';
 $string['units'] = 'Units';
 $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
+
+$string['cachedef_data'] = 'Aspire Lists Block Data Cache';

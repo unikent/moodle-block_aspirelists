@@ -5,3 +5,7 @@
 .block_aspirelists .block_loading {
     display: none;
 }
+
+.block_aspirelists h3 {
+    margin-bottom: 2px;
+}

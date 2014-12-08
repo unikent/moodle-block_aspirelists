@@ -1,5 +1,5 @@
 M.block_aspirelists = {
-    init: function(Y, id, shortname) {
+    init: function(Y, id) {
         YUI().use("node", "io", "dump", "json-parse", function(Y) {
 
             var aspirelists = Y.one(".block_aspirelists .content");
@@ -11,7 +11,6 @@ M.block_aspirelists = {
                 method: "GET",
                 data: {
                     id: id,
-                    shortname: shortname,
                     sesskey: M.cfg.sesskey
                 },
 
