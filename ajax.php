@@ -17,9 +17,6 @@
 define('AJAX_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once(dirname(__FILE__) . "/lib/readinglists/src/API.php");
-require_once(dirname(__FILE__) . "/lib/readinglists/src/Parser.php");
-require_once(dirname(__FILE__) . "/lib/readinglists/src/ReadingList.php");
 
 require_login();
 require_sesskey();
