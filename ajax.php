@@ -35,10 +35,7 @@ if (!$course) {
 
 // Extract the shortnames.
 $subject = strtolower($course->shortname);
-preg_match_all("([a-z]{2,4}[0-9]{3,4})", $subject, $matches);
-if (empty($matches)) {
-    print_error("Invalid course specified!");
-}
+$matches = explode('/', $subject);
 
 // Build MUC object.
 $cache = \cache::make('block_aspirelists', 'data');
@@ -52,7 +49,7 @@ $api->set_timeperiod(get_config('aspirelists', 'timeperiod'));
 // Build Lists.
 $lists = array();
 foreach ($matches as $match) {
-    $lists = array_merge($lists, $api->get_lists($match[0]));
+    $lists = array_merge($lists, $api->get_lists($match));
 }
 
 // Turn lists into block content.
