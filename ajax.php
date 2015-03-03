@@ -27,28 +27,19 @@ $PAGE->set_context(\context_course::instance($id));
 
 $course = $DB->get_record('course', array(
     'id' => $id
-));
+), 'shortname');
 
 if (!$course) {
     print_error("Invalid course specified!");
 }
 
-// Extract the shortnames.
-$subject = strtolower($course->shortname);
-$matches = explode('/', $subject);
-
-// Build MUC object.
-$cache = \cache::make('block_aspirelists', 'data');
-
 // Build Readinglists API object.
-$api = new \unikent\ReadingLists\API();
-$api->set_cache_layer($cache);
-$api->set_timeout(get_config('aspirelists', 'timeout'));
-$api->set_timeperiod(get_config('aspirelists', 'timeperiod'));
+$api = new \mod_aspirelists\core\API();
+$shortcodes = $api->extract_shortcodes($course->shortname);
 
 // Build Lists.
 $lists = array();
-foreach ($matches as $match) {
+foreach ($shortcodes as $match) {
     $lists = array_merge($lists, $api->get_lists($match));
 }
 

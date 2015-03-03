@@ -45,5 +45,3 @@ $string['courses'] = 'Courses';
 $string['units'] = 'Units';
 $string['programmes'] = 'Programmes';
 $string['subjects'] = 'Subjects';
-
-$string['cachedef_data'] = 'Aspire Lists Block Data Cache';
