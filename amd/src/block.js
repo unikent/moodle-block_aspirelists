@@ -22,7 +22,7 @@
  /**
   * @module block_aspirelists/block
   */
-define(['core/ajax', 'core/templates'], function(ajax, templates) {
+define(['core/ajax'], function(ajax) {
     return {
         init: function(courseid) {
             $("#aspire_block_contents").removeClass("hidden");
