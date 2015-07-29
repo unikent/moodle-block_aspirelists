@@ -89,6 +89,9 @@ class api extends external_api
             $lists = array_merge($lists, $api->get_lists($match));
         }
 
+        // For merged modules.
+        $lists = array_unique($lists);
+
         // Return them in a suitable format.
         $formatted = array();
         foreach ($lists as $list) {
