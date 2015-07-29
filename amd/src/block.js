@@ -36,7 +36,8 @@ define(['core/ajax'], function(ajax) {
             }]);
 
             promises[0].done(function(response) {
-                $("#aspire_block_contents").html("");
+                $("#aspire_block_contents").html("").removeClass("text-center");
+
                 $.each(response, function(i, o) {
                     var container = $("#aspire_block_contents #aspire_" + o.campus);
                     if (container.length == 0) {
