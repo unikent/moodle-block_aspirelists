@@ -4,7 +4,7 @@ M.block_aspirelists = {
 
             var aspirelists = Y.one(".block_aspirelists .content");
 
-            Y.one(".block_aspirelists .block_loading").setStyle("display", "block");
+            Y.one(".block_aspirelists .hidden").setStyle("display", "block");
 
             Y.io(M.cfg.wwwroot + "/blocks/aspirelists/ajax.php", {
                 timeout: 3000,
