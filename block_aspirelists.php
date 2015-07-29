@@ -36,10 +36,7 @@ class block_aspirelists extends block_base {
 
         parent::get_required_javascript();
 
-        $this->page->requires->string_for_js('ajaxwait', 'block_aspirelists');
-        $this->page->requires->string_for_js('ajaxerror', 'block_aspirelists');
-
-        $this->page->requires->js_init_call('M.block_aspirelists.init', array(
+        $this->page->requires->js_call_amd('block_aspirelists/block', 'init', array(
             $COURSE->id
         ));
     }
