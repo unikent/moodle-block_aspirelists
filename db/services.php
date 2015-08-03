@@ -14,15 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version details
- *
- * @package    block_aspirelists
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+$services = array(
+    'Aspire Lists service' => array(
+        'functions' => array (
+            'aspirelists_get_lists',
+        ),
+        'requiredcapability' => '',
+        'restrictedusers' => 0,
+        'enabled' => 1
+    )
+);
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2015072900;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2013110500;        // Requires this Moodle version.
-$plugin->component = 'block_aspirelists';
+$functions = array(
+    'aspirelists_get_lists' => array(
+        'classname'   => 'block_aspirelists\api',
+        'methodname'  => 'get_lists',
+        'description' => 'Get reading lists for a given course.',
+        'type'        => 'read'
+    )
+);
