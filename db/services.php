@@ -30,6 +30,7 @@ $functions = array(
         'classname'   => 'block_aspirelists\api',
         'methodname'  => 'get_lists',
         'description' => 'Get reading lists for a given course.',
-        'type'        => 'read'
+        'type'        => 'read',
+        'ajax'        => true
     )
 );

@@ -23,6 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015072900;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2013110500;        // Requires this Moodle version.
+$plugin->version   = 2015121200;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2015111600;        // Requires this Moodle version.
 $plugin->component = 'block_aspirelists';
