@@ -27,10 +27,11 @@ $services = array(
 
 $functions = array(
     'aspirelists_get_lists' => array(
-        'classname'   => 'block_aspirelists\api',
-        'methodname'  => 'get_lists',
-        'description' => 'Get reading lists for a given course.',
-        'type'        => 'read',
-        'ajax'        => true
+        'classname'     => 'block_aspirelists\api',
+        'methodname'    => 'get_lists',
+        'description'   => 'Get reading lists for a given course.',
+        'type'          => 'read',
+        'ajax'          => true,
+        'loginrequired' => false
     )
 );
