@@ -43,7 +43,7 @@ define(['core/ajax'], function(ajax) {
                     if (container.length == 0) {
                         container = $("#aspire_block_contents").append('<div id="aspire_' + o.campus + '"></div>');
                         container = $("#aspire_block_contents #aspire_" + o.campus);
-                        container.append("<h3>" + o.campus + "</h3>");
+                        container.append("<h4>" + o.campus + "</h4>");
                     }
 
                     var extras = '';
